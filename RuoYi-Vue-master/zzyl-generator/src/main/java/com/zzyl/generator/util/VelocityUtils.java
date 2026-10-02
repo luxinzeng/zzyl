@@ -246,6 +246,7 @@ public class VelocityUtils
      */
     public static HashSet<String> getImportList(GenTable genTable)
     {
+
         List<GenTableColumn> columns = genTable.getColumns();
         GenTable subGenTable = genTable.getSubTable();
         HashSet<String> importList = new HashSet<String>();
@@ -260,6 +261,15 @@ public class VelocityUtils
                 importList.add("java.util.Date");
                 importList.add("com.fasterxml.jackson.annotation.JsonFormat");
             }
+
+            // 如果字段类型在前端选择的是LocalDateTime，则导入对应的包
+            if (!column.isSuperColumn() && GenConstants.TYPE_LOCAL_DATE_TYPE.equals(column.getJavaType()))
+            {
+                importList.add("java.time.LocalDateTime");
+                // 导入这个是为了格式化日期
+                importList.add("com.fasterxml.jackson.annotation.JsonFormat");
+            }
+
             else if (!column.isSuperColumn() && GenConstants.TYPE_BIGDECIMAL.equals(column.getJavaType()))
             {
                 importList.add("java.math.BigDecimal");
@@ -405,4 +415,5 @@ public class VelocityUtils
         }
         return num;
     }
+
 }
