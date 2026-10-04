@@ -1,6 +1,7 @@
 package com.zzyl.nursing.controller;
 
 import com.zzyl.common.core.domain.R;
+import com.zzyl.nursing.vo.NursingLevelVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -48,7 +49,7 @@ public class NursingLevelController extends BaseController
     public TableDataInfo list(@ApiParam(value = "护理等级查询条件") NursingLevel nursingLevel)
     {
         startPage();
-        List<NursingLevel> list = nursingLevelService.selectNursingLevelList(nursingLevel);
+        List<NursingLevelVo> list = nursingLevelService.selectNursingLevelList(nursingLevel);
         return getDataTable(list);
     }
 
@@ -61,8 +62,8 @@ public class NursingLevelController extends BaseController
     @ApiOperation("导出护理等级列表")
     public void export(HttpServletResponse response, @ApiParam(value = "护理等级查询条件") NursingLevel nursingLevel)
     {
-        List<NursingLevel> list = nursingLevelService.selectNursingLevelList(nursingLevel);
-        ExcelUtil<NursingLevel> util = new ExcelUtil<NursingLevel>(NursingLevel.class);
+        List<NursingLevelVo> list = nursingLevelService.selectNursingLevelList(nursingLevel);
+        ExcelUtil<NursingLevelVo> util = new ExcelUtil<NursingLevelVo>(NursingLevelVo.class);
         util.exportExcel(response, list, "护理等级数据");
     }
 
